@@ -8,7 +8,7 @@ import { BulkActions } from "@/components/bulk-actions"
 import { TimerModal } from "@/components/timer-modal"
 import { Footer } from "@/components/footer"
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useTheme } from "@/hooks/use-theme"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
@@ -21,6 +21,9 @@ export default function HomePage() {
   const { toggle, theme } = useTheme()
   const searchRef = useRef<HTMLInputElement>(null)
   const { setFilter } = useTodos()
+  // Avoid hydration mismatch for theme-dependent icon
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
   useKeyboardShortcuts({
     onNew: () => document.getElementById("title")?.focus(),
@@ -46,7 +49,11 @@ export default function HomePage() {
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
               className="inline-flex"
             >
-              {theme === "dark" ? <Moon className="size-4" /> : <Sun className="size-4" />}
+              {mounted ? (
+                theme === "dark" ? <Moon className="size-4" /> : <Sun className="size-4" />
+              ) : (
+                <span className="size-4" aria-hidden />
+              )}
             </motion.span>
             <span>Toggle-Theme</span>
           </Button>
