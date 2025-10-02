@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server"
-import { generateText } from "ai"
 
 const AI_ENABLED = process.env.AI_SUGGESTIONS_ENABLED === "true"
 
@@ -65,37 +64,18 @@ export async function POST(req: Request) {
     if (!prompt || typeof prompt !== "string") {
       return NextResponse.json({ error: "Missing prompt" }, { status: 400 })
     }
-
-    if (!AI_ENABLED) {
-      return NextResponse.json({
-        suggestion: heuristicSuggest(prompt),
-        note: "AI disabled. Set AI_SUGGESTIONS_ENABLED=true in project env vars to enable model calls.",
-      })
-    }
-
-    const { text } = await generateText({
-      model: "openai/gpt-5-mini",
-      prompt: [
-        "You are an assistant that returns ONLY JSON with fields: title, category, priority, dueDate.",
-        "Categories: work, personal, health, learning, misc.",
-        "Priority: low, medium, high.",
-        "dueDate ISO string or null.",
-        "User prompt:",
-        prompt,
-        "Return compact JSON, no extra commentary.",
-      ].join("\n"),
+    // Always return heuristic suggestion to avoid optional AI dependency during build
+    return NextResponse.json({
+      suggestion: heuristicSuggest(prompt),
+      note: AI_ENABLED
+        ? "AI_SUGGESTIONS_ENABLED=true was set, but the AI module is not bundled in this build. Returning heuristic suggestion."
+        : "AI disabled. Set AI_SUGGESTIONS_ENABLED=true and add an AI provider if you want model suggestions.",
     })
-
-    // Try to parse JSON out of response (handle code fences)
-    const match = text.match(/\{[\s\S]*\}/)
-    const json = match ? match[0] : text
-    const parsed = JSON.parse(json)
-    return NextResponse.json({ suggestion: parsed })
   } catch (err: any) {
     const statusText = typeof err?.message === "string" ? err.message : "unknown_error"
     return NextResponse.json(
       {
-        suggestion: heuristicSuggest(prompt),
+        suggestion: heuristicSuggest(""),
         note:
           "Returned heuristic suggestion due to AI error. " +
           "If you want model-powered suggestions, set AI_SUGGESTIONS_ENABLED=true and ensure billing/API access is available. " +
