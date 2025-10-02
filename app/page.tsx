@@ -48,7 +48,7 @@ export default function HomePage() {
             >
               {theme === "dark" ? <Moon className="size-4" /> : <Sun className="size-4" />}
             </motion.span>
-            <span>Toggle Theme</span>
+            <span>Toggle-Theme</span>
           </Button>
         </div>
       </header>
@@ -57,13 +57,11 @@ export default function HomePage() {
         <AddTodoForm />
         <div className="flex items-center gap-2">
           <div className="flex-1">
-            {/* Search input forwarded via ref for Ctrl+K */}
             <SearchBar />
           </div>
           <div className="hidden md:block">
             <CategoryFilter />
           </div>
-          {/* Mobile Filters Drawer */}
           <div className="md:hidden">
             <Drawer>
               <DrawerTrigger asChild>
@@ -77,7 +75,6 @@ export default function HomePage() {
             </Drawer>
           </div>
         </div>
-
         <Tabs defaultValue="all" className="w-full" onValueChange={(v) => setFilter(v as any)}>
           <TabsList>
             <TabsTrigger value="all">All</TabsTrigger>
@@ -98,7 +95,6 @@ export default function HomePage() {
         <BulkActions />
         <Footer />
       </div>
-      {/* Mobile FAB */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9, y: 8 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}

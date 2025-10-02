@@ -1,7 +1,7 @@
 "use client"
 
-import { Badge } from "@/components/ui/badge"
-import { motion } from "framer-motion"
+// import { Badge } from "@/components/ui/badge"
+// import { motion } from "framer-motion"
 
 export function Footer() {
   return (
