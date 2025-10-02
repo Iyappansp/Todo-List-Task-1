@@ -39,7 +39,7 @@ function TabsTrigger({
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        'tab-pill rounded-full transition-transform duration-150 hover:scale-105 hover:ring-2 hover:ring-purple-400/60 hover:shadow-md data-[state=active]:bg-purple-500 data-[state=active]:text-white data-[state=active]:animate-[pulse-quick_200ms_ease]',
+        'tab-pill rounded-full px-3 py-1 transition-transform duration-150 hover:scale-105 hover:ring-2 hover:ring-purple-400/60 hover:bg-primary/10 dark:hover:bg-primary/20 hover:shadow-md transition-colors duration-200 data-[state=active]:bg-purple-500 data-[state=active]:text-white data-[state=active]:animate-[pulse-quick_200ms_ease]',
         className,
       )}
       {...props}

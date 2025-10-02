@@ -163,7 +163,6 @@
 [data-slot=checkbox][data-state=checked] svg polyline {
   stroke-dasharray: 28;
   stroke-dashoffset: 28;
-  animation: stroke-draw 400ms ease forwards;
 }
 
 /* Focus animation on inputs */
@@ -176,4 +175,22 @@
 
 /* Glassmorphic card helper */
 .glass-card { @apply bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg; }
-
+  
+  /* Ensure only our custom calendar icon shows if any native date inputs remain */
+  input[type="date"] { 
+    appearance: none; 
+    -webkit-appearance: none; 
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator { 
+    opacity: 0; 
+    display: none; 
+  }
+  input[type="date"]::-ms-clear { 
+    display: none; 
+  }
+  input[type="date"]::-ms-expand { 
+    display: none; 
+  }
+  input[type="date"]::-moz-focus-inner { 
+    border: 0; 
+  }

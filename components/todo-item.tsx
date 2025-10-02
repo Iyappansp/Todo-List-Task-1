@@ -30,7 +30,7 @@ export function TodoItem({ todo }: { todo: Todo }) {
       exit={{ opacity: 0, scale: 0.95, y: -6 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
     >
-      <Card className="glass-card">
+      <Card className="glass-card hover:shadow-xl hover:scale-105 transition-transform duration-200">
         <CardContent className="p-6 flex items-center gap-3">
           <Checkbox checked={selected} onCheckedChange={(v) => select(todo.id, !!v)} aria-label="Select todo" />
           <Checkbox checked={todo.completed} onCheckedChange={() => toggle(todo.id)} aria-label="Toggle complete" />
@@ -51,7 +51,7 @@ export function TodoItem({ todo }: { todo: Todo }) {
                 <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                   <span className="uppercase">{(todo.category || "misc")}</span>
                   <span>•</span>
-                  <span className="group inline-flex items-center rounded-full bg-gray-200 dark:bg-gray-700 px-2 py-0.5 overflow-hidden">
+                  <span className="group inline-flex items-center rounded-full bg-gray-200 dark:bg-gray-700 px-2 py-0.5 overflow-hidden hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors duration-200">
                     <span className={`size-1.5 rounded-full ${priorityColor}`} />
                     <span className="transition-all duration-200 w-0 opacity-0 group-hover:w-auto group-hover:opacity-100 pl-1">
                       {p}

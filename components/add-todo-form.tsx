@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label"
 import { useTodos, type Priority, type Category } from "@/hooks/use-todos"
 
 import { motion } from "framer-motion"
-import { Calendar as CalendarIcon } from "lucide-react"
+import DatePicker from "@/components/date-picker"
 
 const schema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -44,15 +44,15 @@ export function AddTodoForm() {
     <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
       <Card className="glass-card">
         <CardContent className="p-6">
-          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-3 md:grid-cols-5">
-            <div className="md:col-span-2">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 sm:grid-cols-4 gap-3 items-center">
+            <div className="sm:col-span-2">
               <Label htmlFor="title" className="sr-only">
                 Title
               </Label>
               <Input
                 id="title"
                 placeholder="What needs to be done?"
-                className="input-like"
+                className="h-10 rounded-lg px-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary/60 focus:border-primary transition"
                 {...form.register("title")}
                 aria-invalid={!!form.formState.errors.title}
               />
@@ -61,9 +61,12 @@ export function AddTodoForm() {
               )}
             </div>
 
-            <div>
+            <div className="sm:col-span-1">
               <Select onValueChange={(v) => form.setValue("category", v as any)} value={form.watch("category") || ""}>
-                <SelectTrigger aria-label="Category" className="input-like px-3 py-2 h-auto">
+                <SelectTrigger
+                  aria-label="Category"
+                  className="h-10 rounded-lg px-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary/60 focus:border-primary transition"
+                >
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -76,9 +79,12 @@ export function AddTodoForm() {
               </Select>
             </div>
 
-            <div>
+            <div className="sm:col-span-1">
               <Select onValueChange={(v) => form.setValue("priority", v as any)} value={form.watch("priority") || ""}>
-                <SelectTrigger aria-label="Priority" className="input-like px-3 py-2 h-auto">
+                <SelectTrigger
+                  aria-label="Priority"
+                  className="h-10 rounded-lg px-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary/60 focus:border-primary transition"
+                >
                   <SelectValue placeholder="Priority" />
                 </SelectTrigger>
                 <SelectContent>
@@ -88,20 +94,13 @@ export function AddTodoForm() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="relative">
-              <Input
-                type="date"
-                className="input-like pr-16 md:pr-20"
-                {...form.register("dueDate")}
-                aria-label="Due date"
-              />
-              {/* Visible calendar glyph on desktop */}
-              <CalendarIcon
-                aria-hidden="true"
-                className="hidden md:block pointer-events-none absolute right-4 md:right-5 top-1/2 -translate-y-1/2 size-5 md:size-6 text-gray-600 dark:text-gray-300 z-10"
+            <div className="sm:col-span-1">
+              <DatePicker
+                value={form.watch("dueDate") || null}
+                onChange={(iso) => form.setValue("dueDate", iso ?? "")}
               />
             </div>
-            <div className="md:col-span-5 flex items-center gap-2">
+            <div className="sm:col-span-4 flex items-center gap-2">
               <Button type="submit" className="btn">
                 Add
               </Button>
